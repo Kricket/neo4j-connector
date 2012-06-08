@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>neo4j Server WAR</display-name>
+
+
+	<servlet>
+		<servlet-name>JAX-RS Servlet Container</servlet-name>
+		<servlet-class>fr.perigee.autocat.neo4j.Neo4jConnectorServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>org.neo4j.server.rest.web</param-value>
+		</init-param>
+		<!-- attempt to fix the problem of two resources on /
+		<init-param> 
+			<param-name>com.sun.jersey.config.property.resourceConfigClass</param-name> 
+			<param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value> 
+		</init-param>
+		--> 
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JAX-RS Servlet Container</servlet-name>
+		<url-pattern>/rest-services/*</url-pattern>
+	</servlet-mapping>
+	<!--
+	<servlet>
+		<servlet-name>JmxService</servlet-name>
+		<servlet-class>org.neo4j.server.webadmin.rest.JmxService</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>ConsoleService</servlet-name>
+		<servlet-class>org.neo4j.server.webadmin.rest.ConsoleService</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>MonitorService</servlet-name>
+		<servlet-class>org.neo4j.server.webadmin.rest.MonitorService</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>RootService</servlet-name>
+		<servlet-class>org.neo4j.server.webadmin.rest.RootService</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>JmxService</servlet-name>
+		<url-pattern>/server/jmx/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ConsoleService</servlet-name>
+		<url-pattern>/server/console/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MonitorService</servlet-name>
+		<url-pattern>/server/monitor/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RootService</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	-->
+	<!--
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Resource requiring Glassfish login</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>autocat-users</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<security-role>
+		<description>Standard users of autocat</description>
+		<role-name>autocat-users</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Default role</description>
+		<role-name>guest</role-name>
+	</security-role>
+	-->
+	
+	<!--
+	<servlet>
+		<servlet-name>neo4j-webadmin-console</servlet-name>
+		<servlet-class>fr.perigee.autocat.neo4j.WrappingNeoServerBootstrapperEJB</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>neo4j-webadmin-console</servlet-name>
+		<url-pattern>/webadmin/*</url-pattern>
+	</servlet-mapping>
+	-->
+</web-app>

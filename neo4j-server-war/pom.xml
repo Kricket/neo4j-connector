@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>neo4j-connector-parent</artifactId>
+		<groupId>com.netoprise</groupId>
+		<version>0.3-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>neo4j-server-war</artifactId>
+	<packaging>war</packaging>
+	<name>neo4j-server-war Webapp</name>
+	<description>Opens access to neo4j admin console</description>
+
+	<properties>
+		<glassfish.version>3.1.1</glassfish.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.neo4j.app</groupId>
+			<artifactId>neo4j-server</artifactId>
+			<version>${neo4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j.app</groupId>
+			<artifactId>neo4j-server</artifactId>
+			<version>${neo4j.version}</version>
+			<classifier>static-web</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.ejb</artifactId>
+			<version>${glassfish.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.netoprise</groupId>
+			<artifactId>neo4j-connector-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.resource</artifactId>
+			<version>${glassfish.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-kernel</artifactId>
+			<version>${neo4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>1.8</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>neo4j-release-repository</id>
+			<name>Neo4j Maven 2 release repository</name>
+			<url>http://m2.neo4j.org/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Unpack the static web files into target/(proj name)/webadmin-html -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Copy static webadmin files</id>
+						<phase>process-sources</phase>
+						<goals><goal>unpack</goal></goals>
+						<!--
+						<phase>package</phase>
+						<goals><goal>unpack</goal></goals>
+
+						<phase>process-resources</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						-->
+						<configuration>
+							<includeTypes>zip</includeTypes>
+							<stripVersion>true</stripVersion>
+							<useSubDirectoryPerArtifact>false</useSubDirectoryPerArtifact>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.neo4j.app</groupId>
+									<artifactId>neo4j-server</artifactId>
+									<version>${neo4j.version}</version>
+									<type>jar</type>
+									<classifier>static-web</classifier>
+									<includes>**/webadmin-html/**</includes>
+									<outputDirectory>${project.build.directory}/${project.build.finalName}/</outputDirectory>
+									<overWrite>true</overWrite>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Make sure the unpacked files get included in the resulting WAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${project.build.directory}/${project.build.finalName}</directory>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

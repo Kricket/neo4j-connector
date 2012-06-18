@@ -5,5 +5,6 @@ import org.neo4j.graphdb.GraphDatabaseService;
 public interface Neo4jConnection extends GraphDatabaseService {
 	
 	void close();
+	GraphDatabaseService getDatabase();
 
 }

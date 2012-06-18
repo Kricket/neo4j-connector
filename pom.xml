@@ -21,6 +21,7 @@
 	<modules>
 		<module>neo4j-connector-api</module>
 		<module>neo4j-connector-impl</module>
+		<module>neo4j-server-war</module>
 		<module>neo4j-connector</module>
 	</modules>
 	<dependencyManagement>
@@ -137,6 +138,7 @@
 		</plugins>
 	</build>
 	<repositories>
+	<!--
 		<repository>
 			<releases>
 				<enabled>true</enabled>
@@ -149,6 +151,11 @@
 			<name>Jboss Repository for Maven</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 			<layout>default</layout>
+		</repository>
+		-->
+		<repository>
+			<id>jboss</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 </project>

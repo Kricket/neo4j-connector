@@ -29,9 +29,7 @@ public class PlatformTransactionProvider extends TransactionManagerProvider {
 	}
 
 	@Override
-	protected AbstractTransactionManager loadTransactionManager(
-			String txLogDir, KernelPanicEventGenerator kpe,
-			TxHook rollbackHook, StringLogger msgLog, FileSystemAbstraction fileSystem) {
+	protected AbstractTransactionManager loadTransactionManager(String txLogDir, KernelPanicEventGenerator kpe, TxHook rollbackHook) {
 		log.info("Create Platform TransactionManager wrapper");
 		return new PlatformTransactionManager();
 	}

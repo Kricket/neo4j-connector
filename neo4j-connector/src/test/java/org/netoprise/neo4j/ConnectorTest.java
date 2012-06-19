@@ -70,6 +70,10 @@ public class ConnectorTest {
 	@Inject
 	@EJB
 	private Neo4jClient client;
+	
+	@Inject
+	@EJB
+	private ConcurrentNeo4jClient concurrent;
 	/**
 	 * Define the deployment
 	 * 
@@ -88,7 +92,7 @@ public class ConnectorTest {
 	   @Deployment(name="test",order=2)
 	   public static WebArchive createTestArchive() {
 	      return ShrinkWrap.create(WebArchive.class, "test.war")
-	         .addClasses(Neo4jClient.class)
+	         .addClasses(Neo4jClient.class, ConcurrentNeo4jClient.class)
 	         .addAsManifestResource(
 	            EmptyAsset.INSTANCE, 
 	            ArchivePaths.create("beans.xml"))
@@ -115,8 +119,22 @@ public class ConnectorTest {
 
 	@Test
 	@OperateOnDeployment("test")
-	public void helloClient() throws Exception {
+	public void clientCanSayHello() throws Exception {
 		assertEquals("Hello world",client.sayHello("world"));
+	}
+
+	@Test
+	@OperateOnDeployment("test")
+	public void clientCanSayHelloAndGoodbye() throws Exception {
+		assertEquals("Hello alex",client.sayHello("alex"));
+		assertEquals("goodbye alex",client.sayGoodbye());
+	}
+
+	@Test
+	@Ignore
+	@OperateOnDeployment("test")
+	public void clientCanSayHelloTheTeam() throws Exception {
+		assertEquals("Hello alex kricket",client.sayHelloToTeam("alex", "kricket"));
 	}
 	
 	@Test

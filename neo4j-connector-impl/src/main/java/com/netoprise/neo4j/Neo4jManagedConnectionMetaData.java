@@ -21,6 +21,7 @@
  */
 package com.netoprise.neo4j;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.resource.ResourceException;
@@ -66,7 +67,7 @@ public class Neo4jManagedConnectionMetaData implements ManagedConnectionMetaData
    public String getEISProductVersion() throws ResourceException
    {
       log.info("getEISProductVersion()");
-      return "1.4.M01";
+      return ConnectorUtils.getConnectorProperties().getProperty("neo4j.version");
    }
 
    /**
